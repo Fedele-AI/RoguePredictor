@@ -19,6 +19,24 @@ The Rouge Wave Analysis system provides:
 - **📈 Prediction Engine**: Forecast rouge wave probability and wave characteristics
 - **🔄 Fallback Mechanisms**: Intelligent fallbacks when AI models are unavailable
 
+## 🔧 Model Information & Fixes
+
+### ✅ **Model Fix Applied**
+- **Previous Issue**: The system was referencing a fictional model `ibm-nasa-geospatial/wave-height-predictor`
+- **Current Fix**: Updated to use the real IBM-NASA model `ibm-nasa-geospatial/Prithvi-100M`
+- **Fallback Models**: Added robust fallback options including GPT-2, T5, and BERT variants
+
+### 🌍 **Real IBM-NASA Models Available**
+- **Prithvi-100M**: A geospatial foundation model trained on NASA's Harmonized Landsat Sentinel-2 (HLS) dataset
+- **Model Hub**: [IBM-NASA Geospatial Organization on Hugging Face](https://huggingface.co/organizations/ibm-nasa-geospatial)
+- **Capabilities**: Satellite imagery analysis, land cover classification, change detection, and more
+
+### 🧪 **Testing the Fix**
+Run the test script to verify model loading:
+```bash
+python test_real_model.py
+```
+
 ## 🏗️ Architecture Overview
 
 ```mermaid
@@ -415,7 +433,7 @@ The system uses `config.yaml` for configuration:
 
 ```yaml
 model:
-  name: "ibm-nasa-geospatial/wave-height-predictor"
+  name: "ibm-nasa-geospatial/Prithvi-100M"
   cache_dir: "./model_cache"
   use_fallback: true
 
@@ -469,7 +487,7 @@ python rouge_wave_analysis.py
 python rouge_wave_analysis.py --max_samples 1000 --output_dir my_analysis
 
 # Use specific IBM-NASA model
-python rouge_wave_analysis.py --model_name "ibm-nasa-geospatial/specific-model"
+python rouge_wave_analysis.py --model_name "ibm-nasa-geospatial/Prithvi-100M"
 ```
 
 ### Custom Configuration

@@ -25,7 +25,7 @@ def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Rouge Wave Analysis with IBM-NASA Geospatial Models')
     parser.add_argument('--model_name', 
-                       default='ibm-nasa-geospatial/wave-height-predictor',
+                       default='ibm-nasa-geospatial/Prithvi-100M',
                        help='Hugging Face model name to use')
     parser.add_argument('--data_path', 
                        default='data/sample_wave_data.csv',

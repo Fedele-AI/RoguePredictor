@@ -1,6 +1,13 @@
 """
 Model handler for IBM-NASA Geospatial models
 Handles loading and managing Hugging Face models for wave analysis
+
+Real IBM-NASA Models Available:
+- ibm-nasa-geospatial/Prithvi-100M: Geospatial foundation model trained on NASA's HLS dataset
+- Additional models available at: https://huggingface.co/organizations/ibm-nasa-geospatial
+
+Note: The previous 'wave-height-predictor' was a fictional model name.
+This handler now uses the real Prithvi-100M model with intelligent fallbacks.
 """
 
 import logging
@@ -32,7 +39,7 @@ except ImportError as e:
 class GeospatialModelHandler:
     """Handles IBM-NASA Geospatial models from Hugging Face"""
     
-    def __init__(self, model_name: str = "ibm-nasa-geospatial/wave-height-predictor"):
+    def __init__(self, model_name: str = "ibm-nasa-geospatial/Prithvi-100M"):
         self.model_name = model_name
         self.logger = logging.getLogger(__name__)
         self.model = None
@@ -43,7 +50,9 @@ class GeospatialModelHandler:
         self.fallback_models = [
             "microsoft/DialoGPT-medium",  # General purpose model
             "distilbert-base-uncased",    # Text classification
-            "bert-base-uncased"           # General BERT model
+            "bert-base-uncased",          # General BERT model
+            "gpt2",                       # OpenAI's GPT-2 model
+            "t5-small"                    # Google's T5 model
         ]
         
         self.logger.info(f"Initializing model handler for: {model_name}")

@@ -127,7 +127,7 @@ def get_default_config() -> Dict[str, Any]:
     """Get default configuration values"""
     return {
         "model": {
-            "name": "ibm-nasa-geospatial/wave-height-predictor",
+            "name": "ibm-nasa-geospatial/Prithvi-100M",
             "cache_dir": "./model_cache",
             "trust_remote_code": True,
             "use_fallback": True

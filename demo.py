@@ -52,7 +52,7 @@ def main():
         
         # Step 3: Initialize model (with fallback)
         print("\n5. Initializing AI model...")
-        model_handler = GeospatialModelHandler("ibm-nasa-geospatial/wave-height-predictor")
+        model_handler = GeospatialModelHandler("ibm-nasa-geospatial/Prithvi-100M")
         model = model_handler.load_model(use_fallback=True)
         
         if model is not None:

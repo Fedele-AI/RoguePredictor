@@ -2,7 +2,7 @@
 # Configuration file for IBM-NASA Geospatial model integration
 
 model:
-  name: "ibm-nasa-geospatial/wave-height-predictor"
+  name: "ibm-nasa-geospatial/Prithvi-100M"
   cache_dir: "./model_cache"
   trust_remote_code: true
   use_fallback: true
@@ -10,6 +10,8 @@ model:
     - "microsoft/DialoGPT-medium"
     - "distilbert-base-uncased"
     - "bert-base-uncased"
+    - "gpt2"
+    - "t5-small"
 
 data:
   max_samples: 1000
