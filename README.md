@@ -252,8 +252,8 @@ flowchart TD
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd rouge-wave-analysis
+   git clone https://github.com/Fedele-AI/RougePredictor
+   cd RougePredictor
    ```
 
 2. **Install uv** (if not already installed)
