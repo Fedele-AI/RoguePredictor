@@ -241,9 +241,12 @@ flowchart TD
 ### Prerequisites
 
 - **Python 3.8+** (tested on Python 3.12)
+- **[uv](https://github.com/astral-sh/uv)** - Fast Python package manager and installer
 - **Git** for version control
 - **8GB+ RAM** recommended for model loading
 - **GPU** optional but recommended for faster inference
+
+> **💡 Why uv?** `uv` is significantly faster than traditional pip/venv workflows, with intelligent dependency resolution, parallel downloads, and built-in virtual environment management. It's the modern Python tooling choice.
 
 ### Installation
 
@@ -253,18 +256,33 @@ flowchart TD
    cd rouge-wave-analysis
    ```
 
-2. **Run the automated installer**
+2. **Install uv** (if not already installed)
    ```bash
-   chmod +x install.sh
-   ./install.sh
+   # On macOS/Linux
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   
+   # On Windows
+   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+   
+   # Or with pip
+   pip install uv
    ```
 
-3. **Activate the virtual environment**
+3. **Create and activate virtual environment with uv**
    ```bash
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   uv venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
-4. **Test the installation**
+4. **Install dependencies with uv**
+   ```bash
+   uv pip install -r requirements.txt
+   
+   # Alternative: Use uv sync for lockfile-based installs
+   uv sync
+   ```
+
+5. **Test the installation**
    ```bash
    python test_system.py
    ```
@@ -295,7 +313,7 @@ rouge-wave-analysis/
 ├── 📄 requirements.txt             # Python dependencies
 ├── 📄 config.yaml                  # Configuration file
 ├── 📄 .gitignore                   # Git ignore patterns
-├── 🚀 install.sh                   # Automated installer
+├── 📁 .venv/                       # Virtual environment (created by uv)
 │
 ├── 🐍 Core Modules
 │   ├── rouge_wave_analysis.py     # Main pipeline orchestrator
@@ -514,6 +532,38 @@ The system considers multiple factors:
 
 ## 🔧 Troubleshooting
 
+### uv Commands Reference
+```bash
+# Create virtual environment
+uv venv
+
+# Activate environment
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install packages
+uv pip install package_name
+uv add package_name
+
+# Install from requirements
+uv pip install -r requirements.txt
+
+# Install development dependencies
+uv add --dev package_name
+
+# Update packages
+uv pip install --upgrade package_name
+
+# Remove packages
+uv pip uninstall package_name
+
+# Show installed packages
+uv pip list
+
+# Run commands in environment
+uv run python script.py
+uv run pytest
+```
+
 ### Common Issues
 
 1. **Model Loading Fails**
@@ -532,8 +582,8 @@ The system considers multiple factors:
 
 3. **Dependency Problems**
    ```bash
-   # Reinstall dependencies
-   pip install -r requirements.txt --force-reinstall
+   # Reinstall dependencies with uv
+   uv pip install -r requirements.txt --force-reinstall
    
    # Check Python version (3.8+ required)
    python --version
@@ -592,9 +642,12 @@ We welcome contributions! Here's how to get started:
 
 ### Development Setup
 ```bash
-# Install development dependencies
-pip install -r requirements.txt
-pip install pytest black flake8
+# Install development dependencies with uv
+uv pip install -r requirements.txt
+uv pip install pytest black flake8
+
+# Alternative: Use uv add for development dependencies
+uv add --dev pytest black flake8
 
 # Run tests
 python test_system.py
@@ -604,6 +657,9 @@ black *.py
 
 # Lint code
 flake8 *.py
+
+# Update dependencies
+uv pip install --upgrade -r requirements.txt
 ```
 
 ## 📚 Further Reading
@@ -672,13 +728,13 @@ graph TD
 ```mermaid
 flowchart TD
     A[Start Installation] --> B{Check Prerequisites}
-    B -->|Python 3.8+| C[Create Virtual Environment]
+    B -->|Python 3.8+| C[Install uv Package Manager]
     B -->|Missing Python| D[Install Python 3.8+]
     D --> C
     
-    C --> E[Activate Environment]
-    E --> F[Upgrade pip]
-    F --> G[Install Dependencies]
+    C --> E[Create Virtual Environment with uv]
+    E --> F[Activate Environment]
+    F --> G[Install Dependencies with uv]
     
     G --> H{Dependencies Installed?}
     H -->|Yes| I[Create Project Directories]
