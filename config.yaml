@@ -1,0 +1,136 @@
+# Rouge Wave Analysis Configuration
+# Configuration file for IBM-NASA Geospatial model integration
+
+model:
+  name: "ibm-nasa-geospatial/wave-height-predictor"
+  cache_dir: "./model_cache"
+  trust_remote_code: true
+  use_fallback: true
+  fallback_models:
+    - "microsoft/DialoGPT-medium"
+    - "distilbert-base-uncased"
+    - "bert-base-uncased"
+
+data:
+  max_samples: 1000
+  batch_size: 32
+  required_columns:
+    - "timestamp"
+    - "latitude"
+    - "longitude"
+    - "wave_height"
+    - "wave_period"
+    - "wind_speed"
+    - "wind_direction"
+  
+  # Data preprocessing options
+  handle_missing_values: true
+  normalize_features: true
+  add_derived_features: true
+  create_geospatial_features: true
+
+analysis:
+  rouge_wave_thresholds:
+    high: 0.7
+    medium: 0.4
+    low: 0.1
+  
+  confidence_threshold: 0.5
+  
+  # Risk level classification
+  risk_levels:
+    - "Low"
+    - "Medium"
+    - "High"
+  
+  # Wave characteristics thresholds
+  wave_thresholds:
+    very_high: 8.0  # meters
+    high: 6.0       # meters
+    moderate: 4.0   # meters
+  
+  wind_thresholds:
+    high_wind: 20.0  # m/s
+  
+  wave_steepness_threshold: 0.1
+
+output:
+  format: ["csv", "json"]
+  include_plots: true
+  plot_dpi: 300
+  plot_format: "png"
+  
+  # Output directories
+  base_dir: "outputs"
+  plots_dir: "plots"
+  data_dir: "data"
+  reports_dir: "reports"
+  
+  # File naming
+  timestamp_format: "%Y%m%d_%H%M%S"
+  include_timestamp: true
+
+logging:
+  level: "INFO"
+  log_file: "logs/rouge_wave_analysis.log"
+  include_console: true
+  include_file: true
+  
+  # Log rotation
+  max_file_size_mb: 10
+  backup_count: 5
+
+visualization:
+  # Plot styling
+  style: "default"
+  color_palette: "husl"
+  figsize: [12, 8]
+  dpi: 300
+  
+  # Risk level colors
+  risk_colors:
+    Low: "#2E8B57"      # Sea Green
+    Medium: "#FF8C00"    # Dark Orange
+    High: "#DC143C"      # Crimson
+  
+  # Chart types to generate
+  charts:
+    - "wave_height_distribution"
+    - "rouge_wave_probability"
+    - "geographic_risk_map"
+    - "time_series_analysis"
+    - "risk_level_distribution"
+    - "wave_characteristics_scatter"
+    - "confidence_analysis"
+    - "analysis_dashboard"
+
+performance:
+  # Processing options
+  use_multiprocessing: false
+  max_workers: 4
+  
+  # Memory management
+  chunk_size: 1000
+  clear_cache_after_batch: false
+  
+  # GPU acceleration (if available)
+  use_gpu: true
+  device: "auto"  # "auto", "cpu", "cuda"
+
+# Model-specific settings
+model_settings:
+  # Text generation parameters
+  max_length: 200
+  do_sample: true
+  temperature: 0.7
+  top_p: 0.9
+  repetition_penalty: 1.1
+  
+  # Input processing
+  max_input_length: 512
+  truncation: true
+  padding: true
+  
+  # Output processing
+  skip_special_tokens: true
+  clean_up_tokenization_spaces: true 
