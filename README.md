@@ -1,7 +1,7 @@
 # 🌊 Rouge Wave Analysis with IBM-NASA Geospatial Models
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-LGPLv3-green.svg)](LICENSE)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Transformers-orange.svg)](https://huggingface.co/)
 
 > **AI-Powered Ocean Wave Analysis for Maritime Safety and Coastal Protection**
@@ -615,7 +615,7 @@ flake8 *.py
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the LGPLv3 License - see the [LICENSE](LICENSE.md) file for details.
 
 ## 🙏 Acknowledgments
 
