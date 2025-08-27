@@ -8,17 +8,19 @@ import sys
 import os
 from pathlib import Path
 
-# Add project root to path
-sys.path.append(str(Path(__file__).parent))
-
-from utils import setup_logging, print_dependency_status, check_dependencies
-from data_loader import WaveDataLoader
-from model_handler import GeospatialModelHandler
-from predictor import WavePredictor
-from visualizer import WaveVisualizer
+from .utils import setup_logging, print_dependency_status, check_dependencies
+from .data_loader import WaveDataLoader
+from .model_handler import GeospatialModelHandler
+from .predictor import WavePredictor
+from .visualizer import WaveVisualizer
 
 def main():
     """Run the demo analysis"""
+    
+    # Check for quick mode
+    if len(sys.argv) > 1 and sys.argv[1] == "--quick":
+        success = quick_test()
+        return 0 if success else 1
     
     print("=" * 60)
     print("ROUGE WAVE ANALYSIS DEMO")
@@ -158,9 +160,5 @@ def quick_test():
         return False
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--quick":
-        success = quick_test()
-        sys.exit(0 if success else 1)
-    else:
-        exit_code = main()
-        sys.exit(exit_code) 
+    exit_code = main()
+    sys.exit(exit_code) 

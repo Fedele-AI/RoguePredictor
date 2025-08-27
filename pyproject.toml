@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rouge-wave-predictor"
+version = "0.1.0"
+description = "A comprehensive rouge wave prediction system using machine learning and time series analysis"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "transformers>=4.36.0",
+    "torch>=2.2.0",
+    "datasets>=2.16.0",
+    "evaluate>=0.4.0",
+    "accelerate>=0.24.0",
+    "numpy>=1.26.0",
+    "pandas>=2.1.0",
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+    "scikit-learn>=1.3.0",
+    "xarray>=2023.10.0",
+    "netCDF4>=1.6.5",
+    "requests>=2.31.0",
+    "granite-tsfm @ git+https://github.com/ibm-granite/granite-tsfm.git@v0.2.22",
+    "Pillow>=10.0.0",
+    "tqdm>=4.66.0",
+    "PyYAML>=6.0"
+]
+
+[project.scripts]
+rouge-wave-demo = "rouge_wave_predictor.demo:main"
+rouge-wave-analysis = "rouge_wave_predictor.rouge_wave_analysis:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"

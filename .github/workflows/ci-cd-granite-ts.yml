@@ -1,0 +1,68 @@
+name: CI/CD Check with GraniteTS
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+
+    - name: Test existing codebase
+      run: |
+        python -c "import rouge_wave_predictor; print('Package import successful')"
+
+    - name: Run GraniteTS Test
+      run: |
+        python test/test_granite_ts.py
+
+    - name: Run Data Loader Tests
+      run: |
+        python test/test_data_loader.py
+
+    - name: Run Predictor Tests
+      run: |
+        python test/test_predictor.py
+
+    - name: Run Visualizer Tests
+      run: |
+        python test/test_visualizer.py
+
+    - name: Run Utils Tests
+      run: |
+        python test/test_utils.py
+
+    - name: Run Model Handler Tests
+      run: |
+        python test/test_model_handler.py
+
+    - name: Run Integration Tests
+      run: |
+        python test/test_integration.py
+
+    - name: Run System Tests
+      run: |
+        python test/test_system.py
+
+    - name: Run Real Model Tests
+      run: |
+        python test/test_real_model.py
+
+    - name: Run Comprehensive Test Suite
+      run: |
+        python test/run_tests.py

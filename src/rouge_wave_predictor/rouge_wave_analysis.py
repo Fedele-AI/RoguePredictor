@@ -10,14 +10,11 @@ import os
 import sys
 from pathlib import Path
 
-# Add project root to path
-sys.path.append(str(Path(__file__).parent))
-
-from data_loader import WaveDataLoader
-from model_handler import GeospatialModelHandler
-from predictor import WavePredictor
-from visualizer import WaveVisualizer
-from utils import setup_logging, create_output_dirs
+from .data_loader import WaveDataLoader
+from .model_handler import GeospatialModelHandler
+from .predictor import WavePredictor
+from .visualizer import WaveVisualizer
+from .utils import setup_logging, create_output_dirs
 
 def main():
     """Main function to run the rouge wave analysis pipeline"""

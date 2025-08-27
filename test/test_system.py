@@ -8,25 +8,28 @@ import sys
 import os
 from pathlib import Path
 
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+
 def test_imports():
     """Test that all required modules can be imported"""
     print("Testing module imports...")
     
     try:
         # Test core modules
-        from data_loader import WaveDataLoader
+        from rouge_wave_predictor.data_loader import WaveDataLoader
         print("✓ data_loader imported successfully")
         
-        from model_handler import GeospatialModelHandler
+        from rouge_wave_predictor.model_handler import GeospatialModelHandler
         print("✓ model_handler imported successfully")
         
-        from predictor import WavePredictor
+        from rouge_wave_predictor.predictor import WavePredictor
         print("✓ predictor imported successfully")
         
-        from visualizer import WaveVisualizer
+        from rouge_wave_predictor.visualizer import WaveVisualizer
         print("✓ visualizer imported successfully")
         
-        from utils import setup_logging, check_dependencies
+        from rouge_wave_predictor.utils import setup_logging, check_dependencies
         print("✓ utils imported successfully")
         
         return True
@@ -43,7 +46,7 @@ def test_data_loader():
     print("\nTesting data loader...")
     
     try:
-        from data_loader import WaveDataLoader
+        from rouge_wave_predictor.data_loader import WaveDataLoader
         
         loader = WaveDataLoader()
         print("✓ WaveDataLoader initialized")
@@ -67,7 +70,7 @@ def test_model_handler():
     print("\nTesting model handler...")
     
     try:
-        from model_handler import GeospatialModelHandler
+        from rouge_wave_predictor.model_handler import GeospatialModelHandler
         
         handler = GeospatialModelHandler()
         print("✓ GeospatialModelHandler initialized")
@@ -87,7 +90,7 @@ def test_predictor():
     print("\nTesting predictor...")
     
     try:
-        from predictor import WavePredictor
+        from rouge_wave_predictor.predictor import WavePredictor
         
         # Test with None model (fallback mode)
         predictor = WavePredictor(None, None)
@@ -104,7 +107,7 @@ def test_visualizer():
     print("\nTesting visualizer...")
     
     try:
-        from visualizer import WaveVisualizer
+        from rouge_wave_predictor.visualizer import WaveVisualizer
         
         visualizer = WaveVisualizer()
         print("✓ WaveVisualizer initialized")
@@ -120,7 +123,7 @@ def test_utils():
     print("\nTesting utility functions...")
     
     try:
-        from utils import check_dependencies, print_dependency_status
+        from rouge_wave_predictor.utils import check_dependencies, print_dependency_status
         
         # Test dependency checking
         deps = check_dependencies()

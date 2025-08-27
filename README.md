@@ -1,8 +1,10 @@
 # 🌊 Rouge Wave Analysis with IBM-NASA Geospatial Models
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/License-LGPLv3-green.svg)](LICENSE)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Transformers-orange.svg)](https://huggingface.co/)
+[![IBM-NASA Geospatial](https://img.shields.io/badge/IBM--NASA-Geospatial-blue.svg)](https://huggingface.co/organizations/ibm-nasa-geospatial)
+![Workflow Status](https://github.com/Fedele-AI/RoguePredictor/actions/workflows/ci-cd-granite-ts.yml/badge.svg?branch=main)
 
 > **AI-Powered Ocean Wave Analysis for Maritime Safety and Coastal Protection**
 
@@ -21,11 +23,6 @@ The Rouge Wave Analysis system provides:
 
 ## 🔧 Model Information & Fixes
 
-### ✅ **Model Fix Applied**
-- **Previous Issue**: The system was referencing a fictional model `ibm-nasa-geospatial/wave-height-predictor`
-- **Current Fix**: Updated to use the real IBM-NASA model `ibm-nasa-geospatial/Prithvi-100M`
-- **Fallback Models**: Added robust fallback options including GPT-2, T5, and BERT variants
-
 ### 🌍 **Real IBM-NASA Models Available**
 - **Prithvi-100M**: A geospatial foundation model trained on NASA's Harmonized Landsat Sentinel-2 (HLS) dataset
 - **Model Hub**: [IBM-NASA Geospatial Organization on Hugging Face](https://huggingface.co/organizations/ibm-nasa-geospatial)
@@ -34,7 +31,7 @@ The Rouge Wave Analysis system provides:
 ### 🧪 **Testing the Fix**
 Run the test script to verify model loading:
 ```bash
-python test_real_model.py
+python test/test_real_model.py
 ```
 
 ## 🏗️ Architecture Overview
@@ -153,22 +150,22 @@ flowchart LR
 ```mermaid
 graph TB
     subgraph "Core Modules"
-        A[rouge_wave_analysis.py<br/>Main Pipeline Orchestrator]
-        B[data_loader.py<br/>Data Loading & Preprocessing]
-        C[model_handler.py<br/>AI Model Integration]
-        D[predictor.py<br/>Prediction & Risk Assessment]
-        E[visualizer.py<br/>Chart & Dashboard Generation]
-        F[utils.py<br/>Helper Functions & Utilities]
+        A[src/rouge_wave_predictor/rouge_wave_analysis.py<br/>Main Pipeline Orchestrator]
+        B[src/rouge_wave_predictor/data_loader.py<br/>Data Loading & Preprocessing]
+        C[src/rouge_wave_predictor/model_handler.py<br/>AI Model Integration]
+        D[src/rouge_wave_predictor/predictor.py<br/>Prediction & Risk Assessment]
+        E[src/rouge_wave_predictor/visualizer.py<br/>Chart & Dashboard Generation]
+        F[src/rouge_wave_predictor/utils.py<br/>Helper Functions & Utilities]
     end
     
     subgraph "Testing & Demo"
-        G[test_system.py<br/>System Functionality Tests]
-        H[demo.py<br/>Demonstration Script]
+        G[test/test_system.py<br/>System Functionality Tests]
+        H[src/rouge_wave_predictor/demo.py<br/>Demonstration Script]
     end
     
     subgraph "Configuration"
         I[config.yaml<br/>YAML Configuration]
-        J[requirements.txt<br/>Python Dependencies]
+        J[pyproject.toml<br/>Project Configuration]
     end
     
     subgraph "Data & Outputs"
@@ -258,7 +255,7 @@ flowchart TD
 
 ### Prerequisites
 
-- **Python 3.8+** (tested on Python 3.12)
+- **Python 3.12+** (tested on Python 3.12)
 - **[uv](https://github.com/astral-sh/uv)** - Fast Python package manager and installer
 - **Git** for version control
 - **8GB+ RAM** recommended for model loading
@@ -292,29 +289,26 @@ flowchart TD
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
 
-4. **Install dependencies with uv**
+4. **Install the package**
    ```bash
-   uv pip install -r requirements.txt
-   
-   # Alternative: Use uv sync for lockfile-based installs
-   uv sync
+   pip install -e .
    ```
 
 5. **Test the installation**
    ```bash
-   python test_system.py
+   python test/test_system.py
    ```
 
 ### First Run
 
 1. **Run the demo** (100 samples)
    ```bash
-   python demo.py
+   rouge-wave-demo
    ```
 
 2. **Run full analysis** (1000+ samples)
    ```bash
-   python rouge_wave_analysis.py --max_samples 1000
+   rouge-wave-analysis --max_samples 1000
    ```
 
 3. **Check outputs**
@@ -481,19 +475,19 @@ The system automatically creates 22+ derived features:
 ### Basic Analysis
 ```bash
 # Analyze 100 samples with default settings
-python rouge_wave_analysis.py
+rouge-wave-analysis
 
 # Analyze 1000 samples with custom output directory
-python rouge_wave_analysis.py --max_samples 1000 --output_dir my_analysis
+rouge-wave-analysis --max_samples 1000 --output_dir my_analysis
 
 # Use specific IBM-NASA model
-python rouge_wave_analysis.py --model_name "ibm-nasa-geospatial/Prithvi-100M"
+rouge-wave-analysis --model_name "ibm-nasa-geospatial/Prithvi-100M"
 ```
 
 ### Custom Configuration
 ```bash
 # Override configuration parameters
-python rouge_wave_analysis.py \
+rouge-wave-analysis \
   --max_samples 500 \
   --batch_size 64 \
   --output_dir custom_outputs
@@ -502,10 +496,10 @@ python rouge_wave_analysis.py \
 ### Demo Mode
 ```bash
 # Quick demonstration (100 samples)
-python demo.py
+rouge-wave-demo
 
 # Quick functionality test
-python demo.py --quick
+rouge-wave-demo --quick
 ```
 
 ## 🔍 Understanding the Outputs
@@ -603,7 +597,7 @@ uv run pytest
    # Reinstall dependencies with uv
    uv pip install -r requirements.txt --force-reinstall
    
-   # Check Python version (3.8+ required)
+   # Check Python version (3.12+ required)
    python --version
    ```
 
@@ -611,17 +605,17 @@ uv run pytest
 ```bash
 # Enable debug logging
 export LOG_LEVEL=DEBUG
-python rouge_wave_analysis.py
+rouge-wave-analysis
 
 # Check system status
-python test_system.py
+python test/test_system.py
 ```
 
 ## 🚀 Advanced Usage
 
 ### Custom Models
 ```python
-from model_handler import GeospatialModelHandler
+from rouge_wave_predictor.model_handler import GeospatialModelHandler
 
 # Use custom Hugging Face model
 handler = GeospatialModelHandler("your-org/your-model")
@@ -654,27 +648,26 @@ We welcome contributions! Here's how to get started:
 1. **Fork the repository**
 2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
 3. **Make your changes**
-4. **Add tests**: `python test_system.py`
+4. **Add tests**: `python test/test_system.py`
 5. **Commit with gitmoji**: `🙈 Add amazing feature`
 6. **Push and create a pull request**
 
 ### Development Setup
 ```bash
-# Install development dependencies with uv
-uv pip install -r requirements.txt
-uv pip install pytest black flake8
+# Install the package in development mode
+pip install -e .
 
-# Alternative: Use uv add for development dependencies
-uv add --dev pytest black flake8
+# Install additional development dependencies
+pip install pytest black flake8
 
 # Run tests
-python test_system.py
+python test/test_system.py
 
 # Format code
-black *.py
+black src/ test/
 
 # Lint code
-flake8 *.py
+flake8 src/ test/
 
 # Update dependencies
 uv pip install --upgrade -r requirements.txt
@@ -746,8 +739,8 @@ graph TD
 ```mermaid
 flowchart TD
     A[Start Installation] --> B{Check Prerequisites}
-    B -->|Python 3.8+| C[Install uv Package Manager]
-    B -->|Missing Python| D[Install Python 3.8+]
+    B -->|Python 3.12+| C[Install uv Package Manager]
+    B -->|Missing Python| D[Install Python 3.12+]
     D --> C
     
     C --> E[Create Virtual Environment with uv]

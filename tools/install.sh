@@ -59,12 +59,12 @@ pip install --upgrade pip
 # Install dependencies
 echo ""
 echo "Installing dependencies..."
-pip install -r requirements.txt
+pip install -e .
 
 if [ $? -eq 0 ]; then
-    echo "✓ Dependencies installed successfully"
+    echo "✓ Package installed successfully"
 else
-    echo "❌ Failed to install dependencies"
+    echo "❌ Failed to install package"
     echo "You may need to install some system dependencies first."
     echo "On Ubuntu/Debian: sudo apt-get install python3-dev build-essential"
     echo "On macOS: xcode-select --install"
@@ -83,7 +83,7 @@ echo "✓ Project directories created"
 # Test the installation
 echo ""
 echo "Testing installation..."
-python test_system.py
+python test/test_system.py
 
 if [ $? -eq 0 ]; then
     echo ""
@@ -91,9 +91,9 @@ if [ $? -eq 0 ]; then
     echo ""
     echo "To get started:"
     echo "1. Activate the virtual environment: source venv/bin/activate"
-    echo "2. Run the demo: python demo.py"
-    echo "3. Run the full analysis: python rouge_wave_analysis.py"
-    echo "4. Check help: python rouge_wave_analysis.py --help"
+    echo "2. Run the demo: rouge-wave-demo"
+    echo "3. Run the full analysis: rouge-wave-analysis"
+    echo "4. Check help: rouge-wave-analysis --help"
     echo ""
     echo "Happy analyzing! 🌊"
 else

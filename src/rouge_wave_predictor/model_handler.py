@@ -204,6 +204,8 @@ class GeospatialModelHandler:
                     
                     self.logger.info(f"Successfully loaded fallback {model_type} model: {fallback_model}")
                     self.model_name = fallback_model  # Update model name
+                    self.model = model
+                    self.tokenizer = tokenizer
                     return model
                 
             except Exception as e:
@@ -218,12 +220,22 @@ class GeospatialModelHandler:
         if self.pipeline is not None:
             return self.pipeline
         
+        if self.model is None or self.tokenizer is None:
+            return None
+        
+        # If model is already a pipeline, return it
+        if hasattr(self.model, '__call__') and 'generation' in str(type(self.model)).lower():
+            self.pipeline = self.model
+            return self.pipeline
+        
         try:
             # Create a custom pipeline for wave height prediction
-            if hasattr(self.model, 'config') and hasattr(self.model.config, 'task_type'):
-                task_type = self.model.config.task_type
-            else:
-                task_type = "regression"  # Default to regression for wave height
+            task_type = "regression"  # Default to regression for wave height
+            try:
+                if hasattr(self.model, 'config') and hasattr(self.model.config, 'task_type'):
+                    task_type = self.model.config.task_type
+            except:
+                pass  # Use default if config access fails
             
             if task_type == "regression":
                 self.pipeline = pipeline(
@@ -257,14 +269,28 @@ class GeospatialModelHandler:
             "model_name": self.model_name,
             "model_loaded": self.model is not None,
             "tokenizer_loaded": self.tokenizer is not None,
-            "pipeline_available": self.pipeline is not None
+            "pipeline_available": self.pipeline is not None,
+            "model_type": "Not loaded",
+            "model_parameters": "Not loaded",
+            "tokenizer_type": "Not loaded"
         }
         
         if self.model is not None:
             try:
                 info["model_type"] = type(self.model).__name__
-                info["model_parameters"] = sum(p.numel() for p in self.model.parameters())
-                info["trainable_parameters"] = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
+                
+                # Check if model has parameters method (regular models)
+                if hasattr(self.model, 'parameters'):
+                    info["model_parameters"] = sum(p.numel() for p in self.model.parameters())
+                    info["trainable_parameters"] = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
+                elif hasattr(self.model, 'model') and hasattr(self.model.model, 'parameters'):
+                    # For pipelines, access the underlying model
+                    info["model_parameters"] = sum(p.numel() for p in self.model.model.parameters())
+                    info["trainable_parameters"] = sum(p.numel() for p in self.model.model.parameters() if p.requires_grad)
+                else:
+                    # For pipelines or other model types
+                    info["model_parameters"] = "N/A (pipeline)"
+                    info["trainable_parameters"] = "N/A (pipeline)"
                 
                 if hasattr(self.model, 'config'):
                     config = self.model.config
@@ -273,8 +299,23 @@ class GeospatialModelHandler:
                         "num_layers": getattr(config, 'num_layers', 'N/A'),
                         "vocab_size": getattr(config, 'vocab_size', 'N/A')
                     }
+                elif hasattr(self.model, 'model') and hasattr(self.model.model, 'config'):
+                    # For pipelines, access the underlying model config
+                    config = self.model.model.config
+                    info["config"] = {
+                        "hidden_size": getattr(config, 'hidden_size', 'N/A'),
+                        "num_layers": getattr(config, 'num_layers', 'N/A'),
+                        "vocab_size": getattr(config, 'vocab_size', 'N/A')
+                    }
+                else:
+                    info["config"] = "N/A"
             except Exception as e:
                 info["model_details"] = f"Error getting details: {str(e)}"
+                info["model_type"] = "Unknown"
+                info["model_parameters"] = "Unknown"
+        
+        if self.tokenizer is not None:
+            info["tokenizer_type"] = type(self.tokenizer).__name__
         
         return info
     
@@ -289,9 +330,11 @@ class GeospatialModelHandler:
             Formatted text input for the model
         """
         # Create a text description of the wave conditions
+        ocean_basin = wave_data.get('ocean_basin', 'Unknown')
         input_text = f"""
         Wave Analysis Request:
         Location: {wave_data.get('latitude', 'N/A')}°N, {wave_data.get('longitude', 'N/A')}°E
+        Ocean Basin: {ocean_basin}
         Wave Height: {wave_data.get('wave_height', 'N/A')} meters
         Wave Period: {wave_data.get('wave_period', 'N/A')} seconds
         Wind Speed: {wave_data.get('wind_speed', 'N/A')} m/s
