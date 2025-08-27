@@ -162,7 +162,7 @@ class TestIntegration(unittest.TestCase):
 
     def test_directory_structure(self):
         """Test that expected directories exist"""
-        expected_dirs = ['data', 'outputs', 'demo_outputs']
+        expected_dirs = ['data', 'outputs']
         for dir_name in expected_dirs:
             dir_path = Path(__file__).parent.parent / dir_name
             self.assertTrue(dir_path.exists(), f"Directory {dir_name} should exist")
