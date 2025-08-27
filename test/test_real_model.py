@@ -8,10 +8,10 @@ import logging
 import sys
 from pathlib import Path
 
-# Add project root to path
-sys.path.append(str(Path(__file__).parent))
+# Add project root/src to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from model_handler import GeospatialModelHandler
+from rouge_wave_predictor.model_handler import GeospatialModelHandler
 
 def test_model_loading():
     """Test loading the real IBM-NASA model and fallbacks"""
